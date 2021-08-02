@@ -47,6 +47,7 @@ describe Oystercard do
     context 'after touching in' do
 
       it 'it is in use' do
+        subject.top_up(5)
         subject.touch_in
         expect(subject).to be_in_journey
       end
@@ -56,11 +57,20 @@ describe Oystercard do
     context 'after touching out' do
 
       it 'it out of use' do
+        subject.top_up(5)
         subject.touch_in
         subject.touch_out
         expect(subject).not_to be_in_journey
       end
 
+    end
+
+  end
+
+  describe '#touch_in' do
+
+    it 'returns an error if balance is below £1' do
+      expect { subject.touch_in }.to raise_error "Insufficient funds"
     end
 
   end
