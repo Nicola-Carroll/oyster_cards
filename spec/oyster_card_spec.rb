@@ -32,10 +32,17 @@ describe Oystercard do
       expect(subject).to respond_to(:deduct).with(1).argument
      end
      
-     it 'tops up an oyster card' do
+    it 'tops up an oyster card' do
       subject.top_up(5)
       expect(subject.deduct(5)).to eq 0
      end
-
 end
+
+  describe '#in_journey?' do
+    
+    it 'card-in-use during journey'
+    expect(subject).to be_in_journey
+    end
+
+  end
 end
