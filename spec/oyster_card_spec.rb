@@ -26,4 +26,16 @@ describe Oystercard do
 
   end
 
+  describe '#deduct' do
+
+    it 'responds to deduct' do
+      expect(subject).to respond_to(:deduct).with(1).argument
+     end
+     
+     it 'tops up an oyster card' do
+      subject.top_up(5)
+      expect(subject.deduct(5)).to eq 0
+     end
+
+end
 end
