@@ -1,6 +1,7 @@
 require 'oyster_card'
 
 describe Oystercard do
+  let(:station) { double :station }
 
   it "has a balance of 0" do
     expect(subject.balance).to eq 0
@@ -49,7 +50,7 @@ describe Oystercard do
 
       it 'it is in use' do
         subject.top_up(5)
-        subject.touch_in
+        subject.touch_in(station)
         expect(subject).to be_in_journey
       end
     
@@ -59,7 +60,7 @@ describe Oystercard do
 
       it 'it out of use' do
         subject.top_up(5)
-        subject.touch_in
+        subject.touch_in(station)
         subject.touch_out
         expect(subject).not_to be_in_journey
       end
@@ -71,7 +72,13 @@ describe Oystercard do
   describe '#touch_in' do
 
     it 'returns an error if balance is below £1' do
-      expect { subject.touch_in }.to raise_error "Insufficient funds"
+      expect { subject.touch_in(station) }.to raise_error "Insufficient funds"
+    end
+
+    it 'remembers touch  in station' do
+      subject.top_up(1)
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
     end
 
   end
@@ -83,6 +90,12 @@ describe Oystercard do
       expect { subject.touch_out }.to change { subject.balance }.by(-1)
     end
 
+    it 'forgets entry station' do
+      subject.top_up(1)
+      subject.touch_in(station)
+      subject.touch_out
+      expect(subject.entry_station).to be_nil
+    end
   end
 end
 
