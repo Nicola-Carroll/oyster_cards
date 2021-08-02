@@ -36,13 +36,33 @@ describe Oystercard do
       subject.top_up(5)
       expect(subject.deduct(5)).to eq 0
      end
-end
+  end
 
   describe '#in_journey?' do
     
-    it 'card-in-use during journey'
-    expect(subject).to be_in_journey
+    it 'a new card is out of use' do
+      expect(subject).not_to be_in_journey
+    end
+
+    context 'after touching in' do
+
+      it 'it is in use' do
+        subject.touch_in
+        expect(subject).to be_in_journey
+      end
+    
+    end
+
+    context 'after touching out' do
+
+      it 'it out of use' do
+        subject.touch_in
+        subject.touch_out
+        expect(subject).not_to be_in_journey
+      end
+
     end
 
   end
+
 end
