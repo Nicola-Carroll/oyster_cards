@@ -6,8 +6,8 @@ class Oystercard
   DEFAULT_AMOUNT = 0
   MIN_CHARGE = 1
 
-  def initialize
-    @balance = DEFAULT_AMOUNT
+  def initialize(amount=DEFAULT_AMOUNT)
+    @balance = amount
     @in_use = false
     @journeys = []
   end

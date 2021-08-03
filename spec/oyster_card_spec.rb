@@ -2,6 +2,7 @@ require 'oyster_card'
 
 describe Oystercard do
   let(:station) { double :station }
+  let(:card) { described_class.new(10) }
 
   it "has a balance of 0" do
     expect(subject.balance).to eq 0
@@ -34,9 +35,8 @@ describe Oystercard do
     #  end
      
     it 'tops up an oyster card' do
-      subject.top_up(5)
-      result = subject.send(:deduct,5)
-      expect(result).to eq 0
+      result = card.send(:deduct,5)
+      expect(result).to eq 5
      end
   end
 
@@ -49,9 +49,8 @@ describe Oystercard do
     context 'after touching in' do
 
       it 'it is in use' do
-        subject.top_up(5)
-        subject.touch_in(station)
-        expect(subject).to be_in_journey
+        card.touch_in(station)
+        expect(card).to be_in_journey
       end
     
     end
@@ -59,10 +58,9 @@ describe Oystercard do
     context 'after touching out' do
 
       it 'it out of use' do
-        subject.top_up(5)
-        subject.touch_in(station)
-        subject.touch_out(station)
-        expect(subject).not_to be_in_journey
+        card.touch_in(station)
+        card.touch_out(station)
+        expect(card).not_to be_in_journey
       end
 
     end
@@ -76,9 +74,8 @@ describe Oystercard do
     end
 
     it 'remembers touch  in station' do
-      subject.top_up(1)
-      subject.touch_in(station)
-      expect(subject.entry_station).to eq station
+      card.touch_in(station)
+      expect(card.entry_station).to eq station
     end
 
   end
@@ -86,15 +83,13 @@ describe Oystercard do
   describe '#touch_out' do
 
     it 'deduct from £1 from balance' do
-      subject.top_up(1)
-      expect { subject.touch_out(station) }.to change { subject.balance }.by(-1)
+      expect { card.touch_out(station) }.to change { card.balance }.by(-1)
     end
 
     it 'forgets entry station' do
-      subject.top_up(1)
-      subject.touch_in(station)
-      subject.touch_out(station)
-      expect(subject.entry_station).to be_nil
+      card.touch_in(station)
+      card.touch_out(station)
+      expect(card.entry_station).to be_nil
     end
   end
 
@@ -105,9 +100,8 @@ describe Oystercard do
     end
 
     it 'creates one journey from touching in and out' do
-      subject.top_up(5)
-      subject.touch_in(station)
-      expect { subject.touch_out(station) }.to change { subject.journeys.count }.by(1)
+      card.touch_in(station)
+      expect { card.touch_out(station) }.to change { card.journeys.count }.by(1)
     end
   end
 
