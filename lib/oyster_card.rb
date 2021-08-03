@@ -26,10 +26,11 @@ class Oystercard
 
     @in_use = true
     @entry_station = station
+    
   end
 
   def touch_out(station)
-    deduct(1) 
+    deduct(MIN_CHARGE) 
 
     @in_use = false
     journey = {@entry_station => station}
