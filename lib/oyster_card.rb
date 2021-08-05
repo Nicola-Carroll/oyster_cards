@@ -2,7 +2,7 @@ require './lib/journey_log'
 
 class Oystercard
 
-  attr_reader :balance, :journeys
+  attr_reader :balance
 
   MAX_AMOUNT = 90
   DEFAULT_AMOUNT = 0
