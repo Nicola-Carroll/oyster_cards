@@ -2,28 +2,29 @@ require './lib/journey'
 
 class JourneyLog
 
-  attr_reader :journey_class, :journeys
-
   def initialize(journey_class: Journey.new)
     @journey_class = journey_class
     @journeys = []
   end
 
-  def start(entry_station)
-
+  def start(station)
+    @journey_class = Journey.new(station)
   end
 
-  def finish(exit_station)
-  
+  def finish(station=nil)
+    current_journey.finish(station)
+    @journeys << @journey_class
+    @journey_class = nil
   end
 
   def journeys
-
+    @journeys
   end
 
   private
 
   def current_journey
-
+    @journey_class.nil? ? @journey_class = Journey.new : @journey_class
   end
+
 end
