@@ -1,20 +1,18 @@
-require './lib/journey'
-
 class JourneyLog
 
-  def initialize(journey_class: Journey.new)
+  def initialize(journey_class: )
     @journey_class = journey_class
     @journeys = []
   end
 
   def start(station)
-    @journey_class = Journey.new(station)
+    @current_journey = @journey_class.new(station)
   end
 
   def finish(station=nil)
     current_journey.finish(station)
-    @journeys << @journey_class
-    @journey_class = nil
+    @journeys << @current_journey
+    @current_journey = nil
   end
 
   def journeys
@@ -24,7 +22,7 @@ class JourneyLog
   private
 
   def current_journey
-    @journey_class.nil? ? @journey_class = Journey.new : @journey_class
+    @current_journey ||= @journey_class.new
   end
 
 end
