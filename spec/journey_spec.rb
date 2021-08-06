@@ -49,4 +49,13 @@ describe Journey do
 
   end
 
+  describe '#finish' do
+    
+    it 'completes a journey' do
+      journey  = Journey.new(station)
+      expect(journey.finish(station)).to eq station
+    end 
+
+  end
+
 end
